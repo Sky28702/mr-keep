@@ -60,7 +60,7 @@ export default function Home() {
           </a>
         </div>
       </main>
-      /* wow */
+      /* wows */
     </div>
   );
 }
