@@ -1,41 +1,122 @@
+"use client";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  async function atSubmit(data) {
+    console.log(data);
+  }
+
   return (
     <>
       <div className="p-1">
         <h1 className="font-bold text-3xl mt-2">Register</h1>
-        <form>
+        <form onSubmit={handleSubmit(atSubmit)}>
           <div className="flex flex-col md:flex-row justify-between items-center md:mt-40 gap-4">
             <img
               src="/register.png"
               className=" h-70 w-80 mb-2  md:mt-0  mt-20"
             ></img>
+
             <div className="flex flex-col justify-center items-center gap-4  px-1">
               <div className="grid grid-cols-2 gap-2 ">
-                <input
-                  placeholder="First Name"
-                  className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
-                ></input>
+                <div>
+                  <input
+                    placeholder="First Name"
+                    className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
+                    {...register("firstName", {
+                      required: "First name is required",
+                      minLength: {
+                        value: 3,
+                        message: "First name must be at least 3 characters",
+                      },
+                    })}
+                  ></input>
+                  {errors.firstName && (
+                    <p className="text-red-600 mb-4 mt-4">
+                      {errors.firstName.message}
+                    </p>
+                  )}
+                </div>
 
-                <input
-                  placeholder="Last Name"
-                  className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
-                ></input>
+                <div className="w-full">
+                  <input
+                    placeholder="Last Name"
+                    className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
+                    {...register("lastName", {
+                      required: "Last name is required",
+                      minLength: {
+                        value: 3,
+                        message: "Last name must be at least 3 characters",
+                      },
+                    })}
+                  ></input>
+                  {errors.lastName && (
+                    <p className="text-red-600 mb-4 mt-4">
+                      {errors.lastName.message}
+                    </p>
+                  )}
+                </div>
               </div>
-              <input
-                placeholder="User Name"
-                className=" w-full  active:outline-emerald-400 active:outline-2 outline-none focus:outline  border  border-emerald-400  p-2 rounded-2xl focus:outline-emerald-400"
-              ></input>
-              <input
-                placeholder="abc@email.com"
-                className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline  border  border-emerald-400  p-2 rounded-2xl focus:outline-emerald-400"
-              ></input>
+              <div className="w-full">
+                <input
+                  placeholder="User Name"
+                  className=" w-full  active:outline-emerald-400 active:outline-2 outline-none focus:outline  border  border-emerald-400  p-2 rounded-2xl focus:outline-emerald-400"
+                  {...register("userName", {
+                    required: "Username is required",
+                    minLength: {
+                      value: 3,
+                      message: "Username must be at least 3 characters",
+                    },
+                  })}
+                ></input>
+                {errors.userName && (
+                  <p className="text-red-600 mb-4 mt-4">
+                    {errors.userName.message}
+                  </p>
+                )}
+              </div>
 
-              <input
-                placeholder="Password"
-                className=" mb-4 w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
-              ></input>
+              <div className="w-full">
+                <input
+                  placeholder="abc@email.com"
+                  className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline  border  border-emerald-400  p-2 rounded-2xl focus:outline-emerald-400"
+                  {...register("email", {
+                    required: "Email is required",
+                  })}
+                ></input>
+                {errors.email && (
+                  <p className="text-red-600 mb-4 mt-4">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="w-full">
+                <input
+                  placeholder="Password"
+                  className=" mb-4 w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
+                ></input>
+                {errors.password && (
+                  <p className="text-red-600 mb-4 mt-4">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
               <p className="font-normal mb-4">
                 Already registerd?{" "}
                 <Link className="text-emerald-400" href="/sign-in">
