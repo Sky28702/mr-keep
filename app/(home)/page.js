@@ -38,6 +38,7 @@ function Home() {
           </p>
         </div>
       </div>
+
       {/* <div className="flex flex-col items-center justify-center min-h-screen text-center">
         <img src="/write.png" className="h-auto mb-2 max-w-full min-w-[70%]" />
         <p className="font-normal text-[22px]">Start Writing Your Notes</p>

@@ -1,7 +1,10 @@
+import Link from "next/link";
+
 function Register() {
   return (
     <>
-      <div>
+      <div className="p-1">
+        <h1 className="font-bold text-3xl mt-2">Register</h1>
         <form>
           <div className="flex flex-col md:flex-row justify-between items-center md:mt-40 gap-4">
             <img
@@ -35,7 +38,9 @@ function Register() {
               ></input>
               <p className="font-normal mb-4">
                 Already registerd?{" "}
-                <span className="text-emerald-400">Login here</span>
+                <Link className="text-emerald-400" href="/sign-in">
+                  Login here
+                </Link>
               </p>
               <button className="bg-emerald-400 hover:bg-emerald-300 cursor-pointer px-4 py-2 rounded-[10px] text-white text-[20px]  ">
                 {" "}
