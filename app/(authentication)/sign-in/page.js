@@ -10,8 +10,18 @@ function login() {
     formState: { errors },
   } = useForm();
 
+  let [authStatus, setAuthStatus] = useState();
+  const [error, setError] = useState("");
+
   async function atSubmit(data) {
-    console.log(data);
+    try {
+      const res = await axios.post("/backend/api/signin", data);
+      setAuthStatus(res.data.success);
+
+      setError(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -61,12 +71,22 @@ function login() {
                 </p>
               )}
             </div>
-            <p className="font-normal mb-4">
+            <p className="font-normal  ">
               New Here?{" "}
               <Link href="/sign-up" className="text-emerald-400">
                 Register Now
               </Link>
             </p>
+
+            <p
+              className={`  text-[16px] font-light ${
+                authStatus == true ? "text-green-500" : "text-red-500"
+              } `}
+            >
+              {" "}
+              {error}{" "}
+            </p>
+
             <button className="bg-emerald-400 hover:bg-emerald-300 cursor-pointer px-4 py-2 rounded-[10px] text-white text-[20px]  ">
               {" "}
               Login{" "}
