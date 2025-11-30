@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import axios from "axios";
 
 function Register() {
   const {
@@ -10,8 +11,21 @@ function Register() {
     formState: { errors },
   } = useForm();
 
+  let [authStatus, setAuthStatus] = useState();
+  const [error, setError] = useState("");
+
   async function atSubmit(data) {
-    console.log(data);
+    try {
+      const res = await axios.post("/backend/api/signup", data);
+      setAuthStatus(res.data.success);
+
+      setError(res.data.message);
+
+      // res.data.success
+      // res.data.message
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -117,12 +131,22 @@ function Register() {
                   </p>
                 )}
               </div>
-              <p className="font-normal mb-4">
+              <p className="font-normal">
                 Already registerd?{" "}
                 <Link className="text-emerald-400" href="/sign-in">
                   Login here
                 </Link>
               </p>
+
+              <p
+                className={`  text-[16px] font-light ${
+                  authStatus == true ? "text-green-500" : "text-red-500"
+                } `}
+              >
+                {" "}
+                {error}{" "}
+              </p>
+
               <button className="bg-emerald-400 hover:bg-emerald-300 cursor-pointer px-4 py-2 rounded-[10px] text-white text-[20px]  ">
                 {" "}
                 Register{" "}
