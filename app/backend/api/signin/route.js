@@ -1,7 +1,7 @@
 import connectdb from "../../db/dbConnect";
 import User from "../models/user";
 import bcrypt from "bcryptjs";
-async function POST(req) {
+export async function POST(req) {
   await connectdb();
   const data = await req.json();
 
