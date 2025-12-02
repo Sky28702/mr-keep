@@ -1,9 +1,19 @@
 "use client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 function login() {
+  const router = useRouter();
+  useEffect(() => {
+    const localData = localStorage.getItem("Current User");
+    if (localData) {
+      router.push("/");
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -16,6 +26,12 @@ function login() {
   async function atSubmit(data) {
     try {
       const res = await axios.post("/backend/api/signin", data);
+
+      if (res.data.success) {
+        localStorage.setItem("Current User", JSON.stringify(res.data.user));
+        router.push("/");
+      }
+
       setAuthStatus(res.data.success);
 
       setError(res.data.message);
