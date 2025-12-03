@@ -1,7 +1,12 @@
 "use client";
 import { IconDeviceFloppy } from "@tabler/icons-react";
+import { useState } from "react";
 
 export default function CreateNote() {
+  const [height, setHeight] = useState(50);
+
+  // if(sizeof)
+
   return (
     <section className="p-4 relative">
       <h1 className="text-3xl font-semibold text-emerald-400 mb-4">
