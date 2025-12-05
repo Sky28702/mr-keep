@@ -15,15 +15,17 @@ export default function CreateNote() {
       <form className=" flex flex-col item-center   ">
         <textarea
           placeholder="Title"
-          className=" font-medium text-3xl min-h-[50px] max-h-[300px] w-full resize-none mb-6 outline-none overflow-hidden"
+          className=" font-medium field-sizing-content text-3xl min-h-[50px] max-h-[300px] w-full resize-none mb-6 outline-none overflow-hidden"
+          maxLength={20}
         ></textarea>
 
         <textarea
           placeholder="Take a note..."
-          className="w-auto text-[20px]  h-auto outline-none"
+          className="w-auto text-[20px] field-sizing-content h-screen outline-none"
+          maxLength={200}
         ></textarea>
 
-        <button className="bg-emerald-400 text-white p-4 text-[20px] rounded-full fixed bottom-6 right-6">
+        <button className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 right-6">
           <IconDeviceFloppy stroke={2} />
         </button>
       </form>
