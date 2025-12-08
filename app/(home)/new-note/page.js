@@ -22,7 +22,7 @@ export default function CreateNote() {
 
     //   try {
     //     setLoading(true);
-    //     await statusLike(data, setIsClick);
+    //     await statusLike(data, setIssClick);
     //   } finally {
     //     setLoading(false);
     //   }
