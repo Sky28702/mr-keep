@@ -18,7 +18,7 @@ export default function CreateNote() {
       return;
     }
 
-    // async function statusOfLike() {git statuss
+    // async function statusOfLike() {
 
     //   try {
     //     setLoading(true);
