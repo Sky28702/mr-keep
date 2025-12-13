@@ -23,7 +23,7 @@ export default function CreateNote() {
     //   try {
     //     setLoading(true);
     //     await statusLike(data, setIssClick);
-    //   } finally { ss
+    //   } finally { ssss
     //     setLoading(false);
     //   }
     // }
