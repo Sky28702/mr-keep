@@ -1,5 +1,5 @@
 "use client";
-import { IconPlus, IconTrash, IconEye, IconEdit } from "@tabler/icons-react";
+import { IconPlus, IconTrash, IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ function Home() {
   useEffect(() => {
     const localData = localStorage.getItem("Current User");
     const user = JSON.parse(localData);
+
     if (localData) {
       setLoggedIn(true);
     } else {
@@ -22,8 +23,8 @@ function Home() {
       try {
         try {
           setLoading(true);
-          const res = await axios.get("/backend/api/notes", user.id);
-          console.log(res.data);
+          const res = await axios.get(`/backend/api/notes?userId=${user.id}`);
+          console.log(res.data.notes);
         } finally {
           setLoading(false);
         }
@@ -46,10 +47,10 @@ function Home() {
           <p className="font-normal text-[22px]">Start Writing Your Notes</p>
         </div>
       ) : (
-        <div className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 bg-emerald-50 hover:bg-emerald-100 cursor-pointer transition-shadow rounded-[10px] w-full align-left h-40">
+        <div className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 cursor-pointer transition-shadow rounded-[10px] w-full align-left h-40">
           <p className="truncate mb-1 font-semibold text-2xl">LODA LESUN </p>
           <p className="line-clamp-3 overflow-hidden text-gray-800">
-            //sample text
+            Sample Text
           </p>
 
           <div className="absolute bottom-1 right-2 flex flex-row gap-2 items-center">
@@ -62,9 +63,6 @@ function Home() {
               className="cursor-pointer text-red-500 text-[18px]"
             >
               <IconTrash stroke={2} />
-            </p>
-            <p title="view" className="cursor-pointer text-[18px]">
-              <IconEye stroke={2} />
             </p>
             <p
               title="Edit"
