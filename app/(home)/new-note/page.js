@@ -7,28 +7,19 @@ import { useRouter } from "next/navigation";
 import axios, { Axios } from "axios";
 
 export default function CreateNote() {
+  const [userId, setUserId] = useState(undefined);
+
   const router = useRouter();
   useEffect(() => {
     const localData = localStorage.getItem("Current User");
     if (localData) {
       const user = JSON.parse(localData);
+      setUserId(user.id);
     } else {
       router.push("/sign-up");
 
       return;
     }
-
-    // async function statusOfLike() {
-
-    //   try {
-    //     setLoading(true);
-    //     await statusLike(data, setIssClick);
-    //   } finally { ssss
-    //     setLoading(false);
-    //   }
-    // }
-
-    // statusOfLike();
   }, []);
 
   const {
@@ -43,7 +34,12 @@ export default function CreateNote() {
     try {
       try {
         setLoading(true);
-        const res = await axios.post("/backend/api/notes", data);
+        const payload = {
+          title: data.title,
+          text: data.text,
+          userId,
+        };
+        const res = await axios.post("/backend/api/notes", payload);
         console.log(res.data);
       } finally {
         setLoading(false);
@@ -51,6 +47,7 @@ export default function CreateNote() {
     } catch (error) {
       console.log(error);
     }
+    router.push(`/`);
   }
 
   return (
