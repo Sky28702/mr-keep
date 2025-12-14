@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [notes, setNotesData] = useState(null);
+  const [notes, setNotesData] = useState([]);
 
   useEffect(() => {
     const localData = localStorage.getItem("Current User");
@@ -24,7 +24,7 @@ function Home() {
         try {
           setLoading(true);
           const res = await axios.get(`/backend/api/notes?userId=${user.id}`);
-          console.log(res.data.notes);
+          setNotesData(res.data.notes);
         } finally {
           setLoading(false);
         }
@@ -38,7 +38,7 @@ function Home() {
   return (
     <section className=" relative p-2">
       <h1 className="font-bold text-3xl align-left mt-2 mb-10">Mr-Keep</h1>
-      {loading == true || loggedIn == false ? (
+      {loading == true || loggedIn == false || notes.length == 0 ? (
         <div className="flex flex-col items-center justify-center min-h-screen text-center">
           <img
             src="/write.png"
@@ -47,31 +47,40 @@ function Home() {
           <p className="font-normal text-[22px]">Start Writing Your Notes</p>
         </div>
       ) : (
-        <div className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 cursor-pointer transition-shadow rounded-[10px] w-full align-left h-40">
-          <p className="truncate mb-1 font-semibold text-2xl">LODA LESUN </p>
-          <p className="line-clamp-3 overflow-hidden text-gray-800">
-            Sample Text
-          </p>
-
-          <div className="absolute bottom-1 right-2 flex flex-row gap-2 items-center">
-            <p className="text-gray-700  font-light text-[12px] ">
-              Last time editied : 12:00Am, 12-20-2025
+        //         {messages.map((msg, idx) => (
+        // <firstag key={idx}>
+        // msg.message or msg.whatever
+        // ))}
+        notes.map((not, id) => (
+          <div
+            key={id}
+            className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 cursor-pointer transition-shadow rounded-[10px] w-full align-left h-40"
+          >
+            <p className="truncate mb-1 font-semibold text-2xl">{not.title} </p>
+            <p className="line-clamp-3 overflow-hidden text-gray-800">
+              {not.text}
             </p>
 
-            <p
-              title="delete"
-              className="cursor-pointer text-red-500 text-[18px]"
-            >
-              <IconTrash stroke={2} />
-            </p>
-            <p
-              title="Edit"
-              className="cursor-pointer text-emerald-400 text-[18px] "
-            >
-              <IconEdit stroke={2} />
-            </p>
+            <div className="absolute bottom-1 right-2 flex flex-row gap-2 items-center">
+              <p className="text-gray-700  font-light text-[12px] ">
+                Last time editied : 12:00Am, 12-20-2025
+              </p>
+
+              <p
+                title="delete"
+                className="cursor-pointer text-red-500 text-[18px]"
+              >
+                <IconTrash stroke={2} />
+              </p>
+              <p
+                title="Edit"
+                className="cursor-pointer text-emerald-400 text-[18px] "
+              >
+                <IconEdit stroke={2} />
+              </p>
+            </div>
           </div>
-        </div>
+        ))
       )}
 
       <Link href={`/new-note`}>
