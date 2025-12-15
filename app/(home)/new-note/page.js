@@ -1,10 +1,11 @@
 "use client";
-import { IconDeviceFloppy } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconChevronLeft } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IconLoader2 } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axios, { Axios } from "axios";
+import Link from "next/link";
 
 export default function CreateNote() {
   const [userId, setUserId] = useState(undefined);
@@ -47,14 +48,17 @@ export default function CreateNote() {
     } catch (error) {
       console.log(error);
     }
-    router.push(`/`);
   }
 
   return (
     <section className="p-4 relative">
-      <h1 className="text-3xl font-semibold text-emerald-400 mb-4">
-        Create New Note
-      </h1>
+      <div className="text-3xl font-semibold mb-4  flex flex-row items-center justify-between">
+        <h1 className=" text-emerald-400"> Create New Note </h1>
+        <Link href="/" className="cursor-pointer">
+          {" "}
+          <IconChevronLeft stroke={2} size={30} />{" "}
+        </Link>
+      </div>
       <form
         onSubmit={handleSubmit(atSubmit)}
         className=" flex flex-col item-center   "
@@ -74,7 +78,7 @@ export default function CreateNote() {
 
         <button
           disabled={loading}
-          className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 right-6"
+          className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 left"
         >
           {loading == true ? (
             <span className="animate-spin">
