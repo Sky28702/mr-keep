@@ -114,6 +114,7 @@ function Register() {
 
               <div className="w-full">
                 <input
+                  type="email"
                   placeholder="abc@email.com"
                   className=" w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline  border  border-emerald-400  p-2 rounded-2xl focus:outline-emerald-400"
                   {...register("email", {
@@ -129,6 +130,7 @@ function Register() {
 
               <div className="w-full">
                 <input
+                  type="password"
                   placeholder="Password"
                   className=" mb-4 w-full active:outline-emerald-400 active:outline-2 outline-none focus:outline border  border-emerald-400  p-2 rounded-2xl  focus:outline-emerald-400"
                   {...register("password", {

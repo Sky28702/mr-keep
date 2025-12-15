@@ -16,7 +16,7 @@ export default function CreateNote() {
       const user = JSON.parse(localData);
       setUserId(user.id);
     } else {
-      router.push("/sign-up");
+      router.push("/sign-in");
 
       return;
     }
