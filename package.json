@@ -14,13 +14,14 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongoose": "^9.0.0",
-    "next": "16.0.4",
+    "next": "^16.0.10",
     "node": "^20.19.6",
     "nodemon": "^3.1.11",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.67.0",
-    "react-hot-toast": "^2.6.0"
+    "react-hot-toast": "^2.6.0",
+    "react-modal": "^3.16.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

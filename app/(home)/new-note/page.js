@@ -1,5 +1,5 @@
 "use client";
-import { IconDeviceFloppy, IconChevronLeft } from "@tabler/icons-react";
+import { IconCheck, IconChevronLeft } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IconLoader2 } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
@@ -48,13 +48,14 @@ export default function CreateNote() {
     } catch (error) {
       console.log(error);
     }
+    router.push(`/`);
   }
 
   return (
     <section className="p-4 relative">
       <div className="text-3xl font-semibold mb-4  flex flex-row items-center justify-between">
         <h1 className=" text-emerald-400"> Create New Note </h1>
-        <Link href="/" className="cursor-pointer">
+        <Link title="back to home " href="/" className="cursor-pointer">
           {" "}
           <IconChevronLeft stroke={2} size={30} />{" "}
         </Link>
@@ -72,20 +73,30 @@ export default function CreateNote() {
 
         <textarea
           placeholder="Take a note..."
-          className="w-auto text-[20px] field-sizing-content h-screen outline-none"
-          {...register("text")}
+          className="w-auto text-[20px] field-sizing-content outline-none"
+          {...register("text", {
+            required: "Enter your text",
+            minLength: {
+              value: 2,
+              message: "Text musn't be empty! ",
+            },
+          })}
         ></textarea>
+
+        {errors.text && (
+          <p className="text-red-600 mb-2 mt-2">{errors.text.message}</p>
+        )}
 
         <button
           disabled={loading}
-          className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 left"
+          className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 right-6"
         >
           {loading == true ? (
             <span className="animate-spin">
               <IconLoader2 stroke={2} />
             </span>
           ) : (
-            <IconDeviceFloppy stroke={2} />
+            <IconCheck stroke={2} />
           )}
         </button>
       </form>
