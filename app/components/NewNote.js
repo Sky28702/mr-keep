@@ -1,13 +1,13 @@
 "use client";
-import { IconCheck, IconChevronLeft } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IconLoader2 } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import Link from "next/link";
 
-export default function CreateNote() {
+export default function CreateNote({ closeModal }) {
   const [userId, setUserId] = useState(undefined);
 
   const router = useRouter();
@@ -26,10 +26,34 @@ export default function CreateNote() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [loading, setLoading] = useState(false);
+
+  //   async function atSubmit(data) {
+  //     try {
+  //       try {
+  //         setLoading(true);
+  //         const payload = {
+  //           title: data.title,
+  //           text: data.text,
+  //           userId,
+  //         };
+  //         const res = await axios.post("/backend/api/notes", payload);
+  //         console.log(res.data);
+  //       } finally {
+  //         reset();
+  //         setLoading(false);
+
+  //         setIsOpen(false);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     router.push(`/`);
+  //   }
 
   async function atSubmit(data) {
     try {
@@ -43,22 +67,20 @@ export default function CreateNote() {
         const res = await axios.post("/backend/api/notes", payload);
         console.log(res.data);
       } finally {
+        reset();
         setLoading(false);
+
+        closeModal();
       }
     } catch (error) {
       console.log(error);
     }
-    router.push(`/`);
   }
 
   return (
     <section className="p-4 relative">
       <div className="text-3xl font-semibold mb-4  flex flex-row items-center justify-between">
         <h1 className=" text-emerald-400"> Create New Note </h1>
-        <Link title="back to home " href="/" className="cursor-pointer">
-          {" "}
-          <IconChevronLeft stroke={2} size={30} />{" "}
-        </Link>
       </div>
       <form
         onSubmit={handleSubmit(atSubmit)}
@@ -73,7 +95,7 @@ export default function CreateNote() {
 
         <textarea
           placeholder="Take a note..."
-          className="w-auto text-[20px] field-sizing-content outline-none"
+          className="w-auto text-[20px] field-sizing-content resize-none outline-none"
           {...register("text", {
             required: "Enter your text",
             minLength: {
@@ -89,15 +111,11 @@ export default function CreateNote() {
 
         <button
           disabled={loading}
-          className="bg-emerald-400 text-white p-4 cursor-pointer text-[20px] rounded-full fixed bottom-6 right-6"
+          type="submit"
+          className="bg-emerald-400 cursor-pointer text-white p-4 rounded-full self-end mt-4
+             flex items-center justify-center"
         >
-          {loading == true ? (
-            <span className="animate-spin">
-              <IconLoader2 stroke={2} />
-            </span>
-          ) : (
-            <IconCheck stroke={2} />
-          )}
+          {loading ? <IconLoader2 className="animate-spin" /> : <IconCheck />}
         </button>
       </form>
     </section>

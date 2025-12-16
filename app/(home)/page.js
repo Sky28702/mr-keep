@@ -1,17 +1,12 @@
 "use client";
-import {
-  IconPlus,
-  IconTrash,
-  IconEdit,
-  IconLoader2,
-  IconCheck,
-} from "@tabler/icons-react";
+import { IconPlus, IconTrash, IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import CreateNote from "../components/NewNote";
 
 function Home() {
   const router = useRouter();
@@ -58,35 +53,12 @@ function Home() {
     readAllNotes();
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
-  async function atSubmit(data) {
-    try {
-      try {
-        setLoading(true);
-        const payload = {
-          title: data.title,
-          text: data.text,
-          userId,
-        };
-        const res = await axios.post("/backend/api/notes", payload);
-        console.log(res.data);
-      } finally {
-        reset();
-        setLoading(false);
-
-        setIsOpen(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    router.push(`/`);
-  }
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm();
 
   return (
     <section className=" relative p-2">
@@ -147,49 +119,7 @@ function Home() {
         className="bg-white rounded-2xl w-[90%] max-w-xl outline-none"
         ariaHideApp={false}
       >
-        <section className="p-6 relative">
-          <div className="text-3xl font-semibold mb-4 flex justify-between items-center">
-            <h1 className="text-emerald-400">Create New Note</h1>
-          </div>
-
-          <form onSubmit={handleSubmit(atSubmit)} className="flex flex-col">
-            <textarea
-              placeholder="Title"
-              className="font-medium text-3xl min-h-[50px] resize-none mb-6 outline-none"
-              maxLength={20}
-              {...register("title")}
-            />
-
-            <textarea
-              placeholder="Take a note..."
-              className="text-[20px] outline-none resize-none mb-4"
-              {...register("text", {
-                required: "Enter your text",
-                minLength: {
-                  value: 2,
-                  message: "Text mustn't be empty!",
-                },
-              })}
-            />
-
-            {errors.text && (
-              <p className="text-red-600 mb-2">{errors.text.message}</p>
-            )}
-
-            <button
-              disabled={loading}
-              type="submit"
-              className="bg-emerald-400 cursor-pointer text-white p-4 rounded-full self-end mt-4
-             flex items-center justify-center"
-            >
-              {loading ? (
-                <IconLoader2 className="animate-spin" />
-              ) : (
-                <IconCheck />
-              )}
-            </button>
-          </form>
-        </section>
+        <CreateNote closeModal={closeModal} />
       </Modal>
     </section>
   );
