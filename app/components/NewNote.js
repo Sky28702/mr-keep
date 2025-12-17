@@ -52,7 +52,7 @@ export default function CreateNote({ closeModal }) {
   //     } catch (error) {
   //       console.log(error);
   //     }
-  //     router.push(`/`);
+  //     router.push(`/`)
   //   }
 
   async function atSubmit(data) {
