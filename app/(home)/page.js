@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import CreateNote from "../components/NewNote";
+import EditNotes from "./notes/edit/[id]/page";
 
 function Home() {
   const router = useRouter();
@@ -14,15 +15,24 @@ function Home() {
   const [notes, setNotesData] = useState([]);
   const [userId, setUserId] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalTwoIsOpen, setModalTwoIsOpen] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
 
   function openModal() {
     setIsOpen(true);
   }
-
-  function afterOpenModal() {}
-
   function closeModal() {
     setIsOpen(false);
+  }
+
+  function openTwoModal(noteId) {
+    setSelectedNoteId(noteId); // set the note to edit
+    setModalTwoIsOpen(true);
+  }
+
+  function closeTwoModal() {
+    setModalTwoIsOpen(false);
+    setSelectedNoteId(null); // reset selected note
   }
 
   useEffect(() => {
@@ -42,6 +52,7 @@ function Home() {
         try {
           setLoading(true);
           const res = await axios.get(`/backend/api/notes?userId=${user.id}`);
+
           setNotesData(res.data.notes);
         } finally {
           setLoading(false);
@@ -75,6 +86,7 @@ function Home() {
         notes.map((not, id) => (
           <div
             key={id}
+            onClick={() => openTwoModal(not._id)}
             className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 cursor-pointer transition-shadow rounded-[10px] w-full mb-6 align-left h-40"
           >
             <p className="truncate mb-1 font-semibold text-2xl">{not.title} </p>
@@ -110,6 +122,16 @@ function Home() {
           </span>
         </div>
       </button>
+
+      <Modal
+        isOpen={modalTwoIsOpen}
+        onRequestClose={closeTwoModal}
+        overlayClassName="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+        className="bg-white rounded-2xl w-[90%] max-w-xl outline-none"
+        ariaHideApp={false}
+      >
+        <EditNotes noteId={selectedNoteId} closeModal={closeTwoModal} />
+      </Modal>
 
       <Modal
         isOpen={modalIsOpen}

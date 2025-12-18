@@ -1,6 +1,27 @@
 import connectdb from "../../db/dbConnect";
 import Notes from "../../models/notes";
 
+export async function POST(req) {
+  try {
+    await connectdb();
+    const data = await req.json();
+
+    const note = new Notes({
+      title: data.title,
+      text: data.text,
+      userId: data.userId,
+    });
+
+    await note.save();
+    return Response.json({
+      success: true,
+      noteData: note,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function GET(req) {
   try {
     await connectdb();
@@ -20,21 +41,20 @@ export async function GET(req) {
   }
 }
 
-export async function POST(req) {
+export async function PUT(req) {
   try {
     await connectdb();
-    const data = await req.json();
 
-    const note = new Notes({
-      title: data.title,
-      text: data.text,
-      userId: data.userId,
-    });
+    const { searchParams } = new URL(req.url);
+    const notesId = searchParams.get("notesId");
+    if (!notesId) {
+      return Response.json({ error: "noteId is required" });
+    }
+    const body = await req.json();
+    const notes = await Notes.findByIdAndUpdate(notesId, body);
 
-    await note.save();
     return Response.json({
-      success: true,
-      noteData: note,
+      notes: notes,
     });
   } catch (error) {
     console.log(error);

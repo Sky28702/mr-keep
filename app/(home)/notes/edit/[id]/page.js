@@ -7,19 +7,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 
-export default function EditNotes() {
+export default function EditNotes({ noteId, closeModal }) {
   const router = useRouter();
-  useEffect(() => {
-    const localData = localStorage.getItem("Current User");
-    if (localData) {
-      const user = JSON.parse(localData);
-    } else {
-      router.push("/sign-in");
-
-      return;
-    }
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -27,33 +16,49 @@ export default function EditNotes() {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    const localData = localStorage.getItem("Current User");
+    if (!localData) {
+      router.push("/sign-in");
+      return;
+    }
+
+    if (!noteId) return;
+
+    async function viewNote() {
+      try {
+        const res = await axios.get(
+          `/backend/api/notes/view?notesId=${noteId}`
+        );
+        const note = res.data.notes;
+        reset({
+          title: note.title,
+          text: note.text,
+        });
+      } catch (error) {
+        console.error("Failed to fetch note:", error);
+      }
+    }
+
+    viewNote();
+  }, [noteId, reset, router]);
+
   const [loading, setLoading] = useState(false);
 
-  //   async function atSubmit(data) {
-  //     try {
-  //       try {
-  //         setLoading(true);
-  //         const payload = {
-  //           title: data.title,
-  //           text: data.text,
-  //           userId,
-  //         };
-  //         const res = await axios.post("/backend/api/notes", payload);
-  //         console.log(res.data);
-  //       } finally {
-  //         reset();
-  //         setLoading(false);
-
-  //         closeModal();
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-
   async function atSubmit(data) {
+    try {
+      setLoading(true);
+
+      const res = await axios.put(`/backend/api/notes?notesId=${noteId}`, data);
+      console.log(res.data);
+      setLoading(false);
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    }
     console.log(data);
   }
+
   return (
     <section className="p-4 relative">
       <div className="text-3xl font-semibold mb-4  flex flex-row items-center justify-between">
