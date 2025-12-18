@@ -82,23 +82,22 @@ function Home() {
               {not.text}
             </p>
 
-            <div className="absolute bottom-1 right-2 flex flex-row gap-2 items-center">
-              <p className="text-gray-700  font-light text-[12px] ">
-                Last time editied : 12:00Am, 12-20-2025
+            <div className="absolute bottom-1 items-center right-2 flex flex-row gap-2  ">
+              <p className="text-gray-700 font-light text-[12px] ">
+                Last time editied : 12:00Am, 12-20-2025 {not._id}
               </p>
 
-              <p
+              <IconTrash
+                stroke={2}
                 title="delete"
                 className="cursor-pointer text-red-500 text-[18px]"
-              >
-                <IconTrash stroke={2} />
-              </p>
-              <p
+              />
+
+              <IconEdit
+                stroke={2}
                 title="Edit"
                 className="cursor-pointer text-emerald-400 text-[18px] "
-              >
-                <IconEdit stroke={2} />
-              </p>
+              />
             </div>
           </div>
         ))
