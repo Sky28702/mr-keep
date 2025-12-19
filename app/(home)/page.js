@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import CreateNote from "../components/NewNote";
-import EditNotes from "./notes/edit/[id]/page";
+import EditNotes from "../components/page";
 
 function Home() {
   const router = useRouter();
@@ -54,6 +54,7 @@ function Home() {
           const res = await axios.get(`/backend/api/notes?userId=${user.id}`);
 
           setNotesData(res.data.notes);
+          console.log(res.data.notes);
         } finally {
           setLoading(false);
         }
@@ -96,7 +97,7 @@ function Home() {
 
             <div className="absolute bottom-1 items-center right-2 flex flex-row gap-2  ">
               <p className="text-gray-700 font-light text-[12px] ">
-                Last time editied : 12:00Am, 12-20-2025 {not._id}
+                Last time editied : {not.updatedAt}
               </p>
 
               <IconTrash
