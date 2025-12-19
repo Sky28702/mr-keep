@@ -7,33 +7,17 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import CreateNote from "../components/NewNote";
-import EditNotes from "../components/page";
+import EditNotes from "../components/EditNote";
 
 function Home() {
   const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [notes, setNotesData] = useState([]);
   const [userId, setUserId] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalTwoIsOpen, setModalTwoIsOpen] = useState(false);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openTwoModal(noteId) {
-    setSelectedNoteId(noteId); // set the note to edit
-    setModalTwoIsOpen(true);
-  }
-
-  function closeTwoModal() {
-    setModalTwoIsOpen(false);
-    setSelectedNoteId(null); // reset selected note
-  }
 
   useEffect(() => {
     Modal.setAppElement("body");
@@ -54,7 +38,6 @@ function Home() {
           const res = await axios.get(`/backend/api/notes?userId=${user.id}`);
 
           setNotesData(res.data.notes);
-          console.log(res.data.notes);
         } finally {
           setLoading(false);
         }
@@ -71,6 +54,27 @@ function Home() {
   //   reset,
   //   formState: { errors },
   // } = useForm();
+
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openTwoModal(noteId) {
+    setSelectedNoteId(noteId); // set the note to edit
+    setModalTwoIsOpen(true);
+  }
+
+  function closeTwoModal() {
+    setModalTwoIsOpen(false);
+    setSelectedNoteId(null); // reset selected note
+  }
+
+  function example() {
+    alert(`heaven`);
+  }
 
   return (
     <section className=" relative p-2">
@@ -103,13 +107,7 @@ function Home() {
               <IconTrash
                 stroke={2}
                 title="delete"
-                className="cursor-pointer text-red-500 text-[18px]"
-              />
-
-              <IconEdit
-                stroke={2}
-                title="Edit"
-                className="cursor-pointer text-emerald-400 text-[18px] "
+                className="cursor-pointer text-red-500 text-[18px] hover:animate-bounce"
               />
             </div>
           </div>

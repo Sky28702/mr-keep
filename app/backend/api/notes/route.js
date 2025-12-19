@@ -60,3 +60,21 @@ export async function PUT(req) {
     console.log(error);
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await connectdb();
+
+    const { searchParams } = new URL(req.url);
+    const notesId = searchParams.get("notesId");
+    if (!notesId) {
+      return Response.json({ error: "noteId is required" });
+    }
+    const deletedNote = await Notes.findByIdAndDelete(notesId);
+    return Response.json({
+      data: deletedNote,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
