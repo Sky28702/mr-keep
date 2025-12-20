@@ -21,33 +21,6 @@ function Home() {
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState(null);
-  const [firstLetter, setFirstletter] = useState("");
-
-  const tailwindColors = [
-    "slate",
-    "gray",
-    "zinc",
-    "neutral",
-    "stone",
-    "red",
-    "orange",
-    "amber",
-    "yellow",
-    "lime",
-    "green",
-    "emerald",
-    "teal",
-    "cyan",
-    "sky",
-    "blue",
-    "indigo",
-    "violet",
-    "purple",
-    "fuchsia",
-    "pink",
-    "rose",
-  ];
-  const randomNumber = Math.floor(Math.random() * 23);
 
   async function readAllNotes(userId) {
     try {
@@ -72,26 +45,12 @@ function Home() {
     const user = JSON.parse(localData);
 
     if (!localData) {
-      // setUserId(user.id);
       router.push("/sign-in");
       return;
     }
     setUser_Id(user.id);
     readAllNotes(user.id);
-    const firstLetter = user?.firstName?.charAt(0);
-    setFirstletter(firstLetter);
   }, []);
-
-  // useEffect(() => {
-
-  // }, []);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors },
-  // } = useForm();
 
   function openModal() {
     setIsOpen(true);
