@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { IconLoader2 } from "@tabler/icons-react";
 
 function Register() {
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const localData = localStorage.getItem("Current User");
     if (localData) {
@@ -24,21 +27,20 @@ function Register() {
   const [error, setError] = useState("");
 
   async function atSubmit(data) {
+    setLoading(true);
     try {
       const res = await axios.post("/backend/api/signup", data);
 
       setAuthStatus(res.data.success);
-
       setError(res.data.message);
 
       if (res.data.success) {
         router.push(`/sign-in`);
       }
-
-      // res.data.success
-      // res.data.message
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -163,9 +165,16 @@ function Register() {
                 {error}{" "}
               </p>
 
-              <button className="bg-emerald-400 hover:bg-emerald-300 cursor-pointer px-4 py-2 rounded-[10px] text-white text-[20px]  ">
-                {" "}
-                Register{" "}
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-emerald-400 hover:bg-emerald-300 cursor-pointer px-4 py-2 rounded-[10px] text-white text-[20px] flex items-center justify-center"
+              >
+                {loading ? (
+                  <IconLoader2 className="animate-spin mr-2" />
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
           </div>
