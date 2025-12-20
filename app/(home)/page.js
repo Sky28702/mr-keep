@@ -1,5 +1,5 @@
 "use client";
-import { IconPlus, IconTrash, IconEdit } from "@tabler/icons-react";
+import { IconPlus, IconTrash, IconEdit, IconLogout } from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -21,6 +21,33 @@ function Home() {
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState(null);
+  const [firstLetter, setFirstletter] = useState("");
+
+  const tailwindColors = [
+    "slate",
+    "gray",
+    "zinc",
+    "neutral",
+    "stone",
+    "red",
+    "orange",
+    "amber",
+    "yellow",
+    "lime",
+    "green",
+    "emerald",
+    "teal",
+    "cyan",
+    "sky",
+    "blue",
+    "indigo",
+    "violet",
+    "purple",
+    "fuchsia",
+    "pink",
+    "rose",
+  ];
+  const randomNumber = Math.floor(Math.random() * 23);
 
   async function readAllNotes(userId) {
     try {
@@ -51,6 +78,8 @@ function Home() {
     }
     setUser_Id(user.id);
     readAllNotes(user.id);
+    const firstLetter = user?.firstName?.charAt(0);
+    setFirstletter(firstLetter);
   }, []);
 
   // useEffect(() => {
@@ -105,12 +134,27 @@ function Home() {
     readAllNotes(user_Id);
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("Current User");
+
+    router.push("/sign-in");
+  };
+
   return (
     <section className=" relative p-2">
       <div>
         <Toaster />
       </div>
-      <h1 className="font-bold text-3xl align-left mt-2 mb-10">Mr-Keep</h1>
+      <h1 className="font-bold text-3xl align-left mt-2 mb-10 flex flex-row items-center justify-between">
+        Mr-Keep
+        <IconLogout
+          stroke={2}
+          size={30}
+          onClick={handleLogout}
+          title="logout"
+          className="text-black cursor-pointer"
+        />
+      </h1>
       {loading == true || notes.length == 0 ? (
         <div className="flex flex-col items-center justify-center min-h-screen text-center">
           <img
