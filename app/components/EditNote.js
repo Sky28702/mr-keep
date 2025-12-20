@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 
-export default function EditNotes({ noteId, closeModal }) {
+export default function EditNotes({ noteId, closeModal, readAllNotes }) {
   const router = useRouter();
   const {
     register,
@@ -16,12 +16,17 @@ export default function EditNotes({ noteId, closeModal }) {
     formState: { errors },
   } = useForm();
 
+  const [userId, setUser_Id] = useState(null);
+
   useEffect(() => {
     const localData = localStorage.getItem("Current User");
+    const user = JSON.parse(localData);
     if (!localData) {
       router.push("/sign-in");
       return;
     }
+
+    setUser_Id(user.id);
 
     if (!noteId) return;
 
@@ -56,7 +61,7 @@ export default function EditNotes({ noteId, closeModal }) {
     } catch (error) {
       console.error(error);
     }
-    console.log(data);
+    readAllNotes(userId);
   }
 
   return (

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 
-export default function CreateNote({ closeModal }) {
+export default function CreateNote({ closeModal, readAllNotes }) {
   const [userId, setUserId] = useState(undefined);
 
   const router = useRouter();
@@ -32,29 +32,6 @@ export default function CreateNote({ closeModal }) {
 
   const [loading, setLoading] = useState(false);
 
-  //   async function atSubmit(data) {
-  //     try {
-  //       try {
-  //         setLoading(true);
-  //         const payload = {
-  //           title: data.title,
-  //           text: data.text,
-  //           userId,
-  //         };
-  //         const res = await axios.post("/backend/api/notes", payload);
-  //         console.log(res.data);
-  //       } finally {
-  //         reset();
-  //         setLoading(false);
-
-  //         setIsOpen(false);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     router.push(`/`)
-  //   }
-
   async function atSubmit(data) {
     try {
       try {
@@ -75,6 +52,7 @@ export default function CreateNote({ closeModal }) {
     } catch (error) {
       console.log(error);
     }
+    readAllNotes(userId);
   }
 
   return (
