@@ -164,7 +164,7 @@ function Home() {
         isOpen={modalTwoIsOpen}
         onRequestClose={closeTwoModal}
         overlayClassName="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-        className="bg-white rounded-2xl w-[90%] max-w-xl outline-none"
+        className="bg-white rounded-2xl w-[90%] max-w-xl outline-none overflow-scroll max-h-[90%] overflow-y-scroll overflow-x-hidden"
         ariaHideApp={false}
       >
         <EditNotes
@@ -178,7 +178,7 @@ function Home() {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         overlayClassName="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-        className="bg-white rounded-2xl w-[90%] max-w-xl outline-none"
+        className="bg-white rounded-2xl w-[90%] max-w-xl max-h-[90%] outline-none overflow-y-scroll overflow-x-hidden"
         ariaHideApp={false}
       >
         <CreateNote closeModal={closeModal} readAllNotes={readAllNotes} />
