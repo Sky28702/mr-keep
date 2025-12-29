@@ -100,11 +100,11 @@ function Home() {
   };
 
   return (
-    <section className=" relative p-2">
+    <section className="m-auto relative p-2">
       <div>
         <Toaster />
       </div>
-      <h1 className="font-bold text-3xl align-left mt-2 mb-10 flex flex-row items-center justify-between">
+      <h1 className="font-bold text-3xl align-left mt-2 mb-4 flex flex-row items-center justify-between ">
         Mr-Keep
         <IconLogout
           stroke={2}
@@ -115,11 +115,10 @@ function Home() {
         />
       </h1>
       {loading == true || notes.length == 0 ? (
-        <div className="flex flex-col items-center justify-center min-h-screen text-center">
-          <img
-            src="/write.png"
-            className="h-auto mb-2 max-w-full min-w-[70%]"
-          />
+        <div className="flex flex-col items-center justify-center min-h-full text-center">
+          {/* <img src="/write.png" className="h-120 mb-2 max-w-full min-w-[70%]" /> */}
+          <img src="/write.png" className=" h-auto" />
+
           <p className="font-normal text-[22px]">Start Writing Your Notes</p>
         </div>
       ) : (
