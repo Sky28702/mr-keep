@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 
-export default function EditNotes({ noteId, closeModal, readAllNotes }) {
+export default function EditNotes({
+  noteId,
+  closeModal,
+  readAllNotes,
+  index,
+  notes,
+}) {
   const router = useRouter();
   const {
     register,
@@ -30,22 +36,10 @@ export default function EditNotes({ noteId, closeModal, readAllNotes }) {
 
     if (!noteId) return;
 
-    async function viewNote() {
-      try {
-        const res = await axios.get(
-          `/backend/api/notes/view?notesId=${noteId}`
-        );
-        const note = res.data.notes;
-        reset({
-          title: note.title,
-          text: note.text,
-        });
-      } catch (error) {
-        console.error("Failed to fetch note:", error);
-      }
-    }
-
-    viewNote();
+    reset({
+      title: notes[index].title,
+      text: notes[index].text,
+    });
   }, [noteId, reset, router]);
 
   const [loading, setLoading] = useState(false);

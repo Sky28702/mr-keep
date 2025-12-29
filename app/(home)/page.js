@@ -12,7 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 function Home() {
   const router = useRouter();
-
+  const [index, setIndex] = useState();
   const [loading, setLoading] = useState(false);
   const [notes, setNotesData] = useState([]);
   const [user_Id, setUser_Id] = useState(null);
@@ -86,6 +86,10 @@ function Home() {
     closeDeleteModal();
   }
 
+  function indexHandler(i) {
+    setIndex(i);
+  }
+
   async function deletedNote(noteId) {
     const res = await axios.delete(`/backend/api/notes?notesId=${noteId}`);
     console.log(res.data);
@@ -125,7 +129,11 @@ function Home() {
         notes.map((not, id) => (
           <div
             key={id}
-            onClick={() => openTwoModal(not._id)}
+            onClick={() => {
+              openTwoModal(not._id);
+              indexHandler(id);
+            }}
+            //  onClick={() => { func1(); func2(); }}
             className=" relative py-2 pr-4 pl-2 border border-none shadow shadow-emerald-400 cursor-pointer transition-shadow rounded-[10px] w-full mb-6 align-left h-40"
           >
             <p className="truncate mb-1 font-semibold text-2xl">{not.title} </p>
@@ -170,6 +178,8 @@ function Home() {
           noteId={selectedNoteId}
           closeModal={closeTwoModal}
           readAllNotes={readAllNotes}
+          index={index}
+          notes={notes}
         />
       </Modal>
 
