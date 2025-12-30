@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 
-export default function EditNotes({
+export default function Notes({
   noteId,
   closeModal,
   readAllNotes,
   index,
   notes,
+  flag,
+  flagReset,
 }) {
   const router = useRouter();
   const {
@@ -36,24 +38,52 @@ export default function EditNotes({
 
     if (!noteId) return;
 
-    reset({
-      title: notes[index].title,
-      text: notes[index].text,
-    });
+    if (flag == 0) {
+      reset({
+        title: notes[index].title,
+        text: notes[index].text,
+      });
+    }
   }, [noteId, reset, router]);
 
   const [loading, setLoading] = useState(false);
 
   async function atSubmit(data) {
-    try {
-      setLoading(true);
+    if (flag == 0) {
+      try {
+        setLoading(true);
 
-      const res = await axios.put(`/backend/api/notes?notesId=${noteId}`, data);
-      console.log(res.data);
-      setLoading(false);
-      closeModal();
-    } catch (error) {
-      console.error(error);
+        const res = await axios.put(
+          `/backend/api/notes?notesId=${noteId}`,
+          data
+        );
+        console.log(res.data);
+        setLoading(false);
+        closeModal();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        try {
+          setLoading(true);
+          const payload = {
+            title: data.title,
+            text: data.text,
+            userId,
+          };
+          const res = await axios.post("/backend/api/notes", payload);
+          console.log(res.data);
+        } finally {
+          flagReset();
+          reset();
+          setLoading(false);
+
+          closeModal();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     readAllNotes(userId);
   }

@@ -6,17 +6,18 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import CreateNote from "../components/NewNote";
-import EditNotes from "../components/EditNote";
+
+import Notes from "../components/Notes";
 import toast, { Toaster } from "react-hot-toast";
 
 function Home() {
   const router = useRouter();
+
+  const [flag, setFlag] = useState(0);
   const [index, setIndex] = useState();
   const [loading, setLoading] = useState(false);
   const [notes, setNotesData] = useState([]);
   const [user_Id, setUser_Id] = useState(null);
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [modalTwoIsOpen, setModalTwoIsOpen] = useState(false);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -52,13 +53,6 @@ function Home() {
     readAllNotes(user.id);
   }, []);
 
-  function openModal() {
-    setIsOpen(true);
-  }
-  function closeModal() {
-    setIsOpen(false);
-  }
-
   function openTwoModal(noteId) {
     setSelectedNoteId(noteId);
     setModalTwoIsOpen(true);
@@ -88,6 +82,14 @@ function Home() {
 
   function indexHandler(i) {
     setIndex(i);
+  }
+
+  function flagHandler() {
+    setFlag(1);
+  }
+
+  function flagReset() {
+    setFlag(0);
   }
 
   async function deletedNote(noteId) {
@@ -159,7 +161,12 @@ function Home() {
         ))
       )}
 
-      <button onClick={openModal}>
+      <button
+        onClick={() => {
+          flagHandler();
+          openTwoModal();
+        }}
+      >
         <div className=" fixed bg-emerald-400 cursor-pointer bottom-6 right-6 rounded-full">
           <span className="font-2xl text-white">
             <IconPlus stroke={2} size={50} />
@@ -171,26 +178,18 @@ function Home() {
         isOpen={modalTwoIsOpen}
         onRequestClose={closeTwoModal}
         overlayClassName="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-        className="bg-white rounded-2xl w-[90%] max-w-xl outline-none overflow-scroll max-h-[80%] overflow-y-scroll overflow-x-hidden"
+        className="bg-white rounded-2xl w-[90%] max-w-xl max-h-[80%] outline-none overflow-y-scroll overflow-x-hidden"
         ariaHideApp={false}
       >
-        <EditNotes
+        <Notes
           noteId={selectedNoteId}
           closeModal={closeTwoModal}
           readAllNotes={readAllNotes}
           index={index}
           notes={notes}
+          flag={flag}
+          flagReset={flagReset}
         />
-      </Modal>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        overlayClassName="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-        className="bg-white rounded-2xl w-[90%] max-w-xl max-h-[80%] outline-none overflow-y-scroll overflow-x-hidden"
-        ariaHideApp={false}
-      >
-        <CreateNote closeModal={closeModal} readAllNotes={readAllNotes} />
       </Modal>
 
       <Modal
