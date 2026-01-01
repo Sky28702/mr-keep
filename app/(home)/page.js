@@ -11,6 +11,7 @@ import Notes from "../components/Notes";
 import toast, { Toaster } from "react-hot-toast";
 
 function Home() {
+  // done
   const router = useRouter();
 
   const [flag, setFlag] = useState(0);
