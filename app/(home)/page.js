@@ -1,5 +1,10 @@
 "use client";
-import { IconPlus, IconTrash, IconEdit, IconLogout } from "@tabler/icons-react";
+import {
+  IconPlus,
+  IconTrash,
+  IconLoader2,
+  IconLogout,
+} from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -122,11 +127,23 @@ function Home() {
         />
       </h1>
       {loading == true || notes.length == 0 ? (
-        <div className="flex flex-col items-center justify-center min-h-full text-center">
+        <div className="flex flex-col items-center mt-20 justify-center min-h-full text-center">
           {/* <img src="/write.png" className="h-120 mb-2 max-w-full min-w-[70%]" /> */}
-          <img src="/write.png" className=" h-auto" />
+          {/* {loading ? <IconLoader2 className="animate-spin" /> : <IconCheck />} */}
+          {loading ? (
+            <p className="flex flex-col items-center justify-center h-auto gap-1 text-4xl font-normal ">
+              <IconLoader2 className="animate-spin text-emerald-400 size-10" />
+              loading
+            </p>
+          ) : (
+            <>
+              <img src="/write.png" className=" h-auto" />
 
-          <p className="font-normal text-[22px]">Start Writing Your Notes</p>
+              <p className="font-normal text-[22px]">
+                Start Writing Your Notes
+              </p>
+            </>
+          )}
         </div>
       ) : (
         notes.map((not, id) => (
