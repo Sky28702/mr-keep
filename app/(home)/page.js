@@ -27,7 +27,7 @@ function Home() {
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState(null);
-
+  // fetc all notes
   async function readAllNotes(userId) {
     try {
       try {
