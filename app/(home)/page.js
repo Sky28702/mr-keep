@@ -43,7 +43,7 @@ function Home() {
       console.log(error);
     }
   }
-  //USEFFECT TO CALL READ ALL NOTES
+
   useEffect(() => {
     Modal.setAppElement("body");
 
